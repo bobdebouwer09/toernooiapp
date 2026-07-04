@@ -10,7 +10,8 @@ let teams = JSON.parse(localStorage.getItem("teams") || "[{\"name\":\"Team 1\",\
 let sporten = JSON.parse(localStorage.getItem("sporten") || "[\"Sport 1\", \"Sport 2\"]");
 
 // De actieve sport die momenteel geselecteerd is
-let huidigeSport = localStorage.getItem("huidigeSport") || "Sport 1";
+// Zorg dat het de eerste sport uit het lijstje is, niet hardcoded "Sport 1"
+let huidigeSport = localStorage.getItem("huidigeSport") || (sporten && sporten.length > 0 ? sporten[0] : "Sport 1");
 
 
 // ==========================================
@@ -231,7 +232,7 @@ function renderScorebord() {
     if(!div) return;
 
     let liveTeams = JSON.parse(localStorage.getItem("teams") || "[]");
-    let liveSport = localStorage.getItem("huidigeSport") || "Sport 1";
+    let liveSport = localStorage.getItem("huidigeSport") || (sporten && sporten.length > 0 ? sporten[0] : "Sport 1");
     
     titel.innerText = "Huidige discipline: " + liveSport;
     div.innerHTML = "";
@@ -271,7 +272,7 @@ function loadHistory(){
         div.innerHTML = `
         <div class="item" style="background: white; color: black; padding: 15px; margin: 10px 0; border-radius: 8px; position: relative; max-width: 500px; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
             <b>📅 ${h.date} - 🏅 ${h.sport}</b>
-            <button onclick="deleteMatch(${index})" style="position: absolute; right: 15px; top: 15px; background: #ff3b30; color: white; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer;">❌ Verwijder</button>
+            <button onclick="deleteMatch(${index})" style="position: absolute; right: 15px; top: 15px; background: #ff3b30; color: white; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer;">❌</button>
             <br><br>
             ${h.teams.map(t=>`🏆 ${t.name}: ${t.score}`).join("<br>")}
         </div>
