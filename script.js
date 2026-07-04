@@ -55,7 +55,7 @@ function renderTeamsLijst(){
 
     teams.forEach((t, i) => {
         div.innerHTML += `
-        <div class="team-item" style="margin: 10px 0; padding: 15px; background: white; border-radius: 8px; display: flex; align-items: center; justify-content: space-between; max-width: 500px; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
+        <div class="team-item" style="margin: 10px 0; padding: 15px; background: white; border-radius: 8px; display: flex; align-items: center; justify-content: space-between; max-width: 500px; bo[...]
             <input value="${t.name}" onchange="teams[${i}].name=this.value; saveTeamsToStorage();" style="padding:8px; font-size: 16px; border: 1px solid #ddd; border-radius: 4px; width: 70%;">
             <button onclick="deleteTeam(${i})" style="background: #ff3b30; color: white; border: none; padding: 8px 12px; border-radius: 4px; cursor: pointer;">❌</button>
         </div>
@@ -93,7 +93,7 @@ function renderSportenLijst(){
 
     sporten.forEach((sport, i) => {
         div.innerHTML += `
-        <div class="sport-item" style="margin: 10px 0; padding: 15px; background: white; border-radius: 8px; display: flex; align-items: center; justify-content: space-between; max-width: 500px; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
+        <div class="sport-item" style="margin: 10px 0; padding: 15px; background: white; border-radius: 8px; display: flex; align-items: center; justify-content: space-between; max-width: 500px; b[...]
             <input value="${sport}" onchange="sporten[${i}]=this.value; saveSportenToStorage();" style="padding:8px; font-size: 16px; border: 1px solid #ddd; border-radius: 4px; width: 70%;">
             <button onclick="deleteSport(${i})" style="background: #ff3b30; color: white; border: none; padding: 8px 12px; border-radius: 4px; cursor: pointer;">❌</button>
         </div>
@@ -128,6 +128,15 @@ function vulSportenKeuzemenu() {
         }
         selectMenu.appendChild(optie);
     });
+    
+    // Als huidigeSport niet in sporten voorkomt, zet het op de eerste beschikbare sport
+    if (!huidigeSport || !sporten.includes(huidigeSport)) {
+        if (sporten.length > 0) {
+            huidigeSport = sporten[0];
+            localStorage.setItem("huidigeSport", huidigeSport);
+            selectMenu.value = huidigeSport;
+        }
+    }
 }
 
 function renderWedstrijdInvoer(){
@@ -272,7 +281,7 @@ function loadHistory(){
         div.innerHTML = `
         <div class="item" style="background: white; color: black; padding: 15px; margin: 10px 0; border-radius: 8px; position: relative; max-width: 500px; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
             <b>📅 ${h.date} - 🏅 ${h.sport}</b>
-            <button onclick="deleteMatch(${index})" style="position: absolute; right: 15px; top: 15px; background: #ff3b30; color: white; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer;">❌</button>
+            <button onclick="deleteMatch(${index})" style="position: absolute; right: 15px; top: 15px; background: #ff3b30; color: white; border: none; padding: 5px 10px; border-radius: 4px; cursor: p[...]
             <br><br>
             ${h.teams.map(t=>`🏆 ${t.name}: ${t.score}`).join("<br>")}
         </div>
@@ -302,4 +311,5 @@ window.addEventListener('DOMContentLoaded', () => {
     }
     
     vulSportenKeuzemenu();
+    renderWedstrijdInvoer();
 });
