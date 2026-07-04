@@ -95,7 +95,8 @@
 
     <script src="script.js"></script>
     <script>
-        let bekekenSport = localStorage.getItem("huidigeSport") || "Sport 1";
+        let sporten = JSON.parse(localStorage.getItem("sporten") || "[]");
+        let bekekenSport = localStorage.getItem("huidigeSport") || (sporten.length > 0 ? sporten[0] : "Sport 1");
 
         function renderSportKnoppen() {
             let btnDiv = document.getElementById("sportButtonsDiv");
